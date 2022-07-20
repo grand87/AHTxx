@@ -1,0 +1,22 @@
+author: Sharaienko Volodymyr <grandamx@gmail.com>
+type: lib
+description: A Mongoose OS library for AHTXX sensors created based on https://github.com/enjoyneering/AHTxx
+version: 1.0
+
+sources:
+  - src
+
+includes:
+  - include
+
+libs:
+  - origin: https://github.com/mongoose-os-libs/i2c
+  - origin: https://github.com/mongoose-os-libs/arduino-compat
+  - origin: https://github.com/mongoose-os-libs/arduino-wire
+
+tags:
+  - cpp
+  - i2c
+  - hw
+
+manifest_version: 2017-09-29

@@ -1,3 +1,46 @@
+# Mongoose OS AHTXX I2C Driver
+
+A Mongoose OS library for AHTXX sensors created based on https://github.com/enjoyneering/AHTxx
+
+## Example application
+
+An example program using a library to read data from the sensor:
+
+```
+#include "mgos.h"
+#include "mgos_i2c.h"
+
+#include "AHTxx.h"
+
+AHTxx aht;
+
+enum mgos_app_init_result mgos_app_init(void) {
+    struct mgos_i2c* i2c;
+
+    i2c = mgos_i2c_get_global();
+    if (!i2c) {
+        LOG(LL_ERROR, ("I2C bus missing, set i2c.enable=true in mos.yml"));
+    } else {
+        LOG(LL_INFO, ("Trying to get the AHT10 sensor"));
+        if (aht.begin()) {
+            LOG(LL_INFO, ("AHT10 sensor initialized"));
+
+            const float humidity = aht.readHumidity();
+            const float temp = aht.readTemperature();
+
+            LOG(LL_INFO, ("aht10 humidity: %0.2f", humidity));
+            LOG(LL_INFO, ("aht10 temp: %0.2f", temp));
+        } else {
+            LOG(LL_ERROR, ("Could not initialize AHT10 sensor"));
+        }
+    }
+
+    return MGOS_APP_INIT_SUCCESS;
+}
+```
+
+# Original README goes below
+
 [![license-badge][]][license] ![version] [![stars][]][stargazers] ![hit-count] [![github-issues][]][issues]
 
 # Aosong ASAIR AHT1x/AHT2x

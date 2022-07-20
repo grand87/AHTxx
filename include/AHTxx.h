@@ -138,9 +138,9 @@ class AHTxx
   #if defined (__AVR__)
    bool     begin(uint32_t speed = AHTXX_I2C_SPEED_HZ, uint32_t stretch = AHTXX_I2C_STRETCH_USEC);
   #elif defined (ESP8266)
-   bool     begin(uint8_t sda = SDA, uint8_t scl = SCL, uint32_t speed = AHTXX_I2C_SPEED_HZ, uint32_t stretch = AHTXX_I2C_STRETCH_USEC);
+   bool     begin(uint32_t speed = AHTXX_I2C_SPEED_HZ, uint32_t stretch = AHTXX_I2C_STRETCH_USEC);
   #elif defined (ESP32)
-   bool     begin(int32_t sda = SDA, int32_t scl = SCL, uint32_t speed = AHTXX_I2C_SPEED_HZ, uint32_t stretch = AHTXX_I2C_STRETCH_USEC);
+   bool     begin(uint32_t speed = AHTXX_I2C_SPEED_HZ, uint32_t stretch = AHTXX_I2C_STRETCH_USEC);
   #elif defined (_VARIANT_ARDUINO_STM32_)
    bool     begin(uint8_t sda = SDA, uint8_t scl = SCL, uint32_t speed = AHTXX_I2C_SPEED_HZ);
   #else

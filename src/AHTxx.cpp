@@ -95,18 +95,22 @@ bool AHTxx::begin(uint32_t speed, uint32_t stretch)
   Wire.setWireTimeout(stretch, false);                     //experimental! default 25000usec, true=Wire hardware will be automatically reset on timeout
 
 #elif defined (ESP8266)
-bool AHTxx::begin(uint8_t sda, uint8_t scl, uint32_t speed, uint32_t stretch)
+bool AHTxx::begin(uint32_t speed, uint32_t stretch)
 {
-  Wire.begin(sda, scl);
+  Wire.begin();
 
   Wire.setClock(speed);                                    //experimental! ESP8266 I2C bus speed 1kHz..400kHz, default 100000Hz
 
-  Wire.setClockStretchLimit(stretch);                      //experimental! default 150000usec
+  #if defined (ESP8266)
+  Wire.setClock(stretch); //experimental! default 150000usec
+  #else
+  Wire.setTimeout(stretch / 1000);    //experimental! default 50msec
+  #endif
 
 #elif defined (ESP32)
-bool AHTxx::begin(int32_t sda, int32_t scl, uint32_t speed, uint32_t stretch) //int32_t SDA & SCL for Master, uint8_t SDA & SCL for Slave
+bool AHTxx::begin(uint32_t speed, uint32_t stretch) //int32_t SDA & SCL for Master, uint8_t SDA & SCL for Slave
 {
-  if (Wire.begin(sda, scl, speed) != true) {return false;} //experimental! ESP32 I2C bus speed ???kHz..400kHz, default 100000Hz
+  if (Wire.begin(speed) != true) {return false;} //experimental! ESP32 I2C bus speed ???kHz..400kHz, default 100000Hz
 
   Wire.setTimeout(stretch / 1000);                         //experimental! default 50msec
 
@@ -545,3 +549,16 @@ bool AHTxx::_checkCRC8()
 
   return true;
 }
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+bool mgos_AHTxx_init(void) {
+  return true;
+}
+
+#ifdef __cplusplus
+}
+#endif
